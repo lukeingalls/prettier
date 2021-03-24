@@ -4,16 +4,4 @@
 module.exports = [
   // JS
   require("./language-js"),
-  // CSS
-  require("./language-css"),
-  // Handlebars
-  require("./language-handlebars"),
-  // GraphQL
-  require("./language-graphql"),
-  // Markdown
-  require("./language-markdown"),
-  // HTML
-  require("./language-html"),
-  // YAML
-  require("./language-yaml"),
 ];
