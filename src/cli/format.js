@@ -7,8 +7,7 @@ const prettier = require("../index");
 const { expandPatterns } = require("./expand-patterns");
 
 function writeOutput(result) {
-  console.log(result.raw);
-  process.stdout.write(result.formatted);
+  return result.raw;
 }
 
 function format(input, opt) {
@@ -18,6 +17,7 @@ function format(input, opt) {
 function formatFiles(context) {
   // The ignorer will be used to filter file paths after the glob is checked,
   // before any files are actually written
+  let raw_results = []
   for (const path of expandPatterns(context)) {
     const options = {
       filepath: path,
@@ -47,8 +47,10 @@ function formatFiles(context) {
     let input = fs.readFileSync(path, "utf8");
     const result = format(input, options);
 
-    writeOutput(result);
+    raw_results.push(writeOutput(result) || []);
   }
+  return raw_results;
+
 }
 
 module.exports = { formatFiles };
