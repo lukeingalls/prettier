@@ -572,6 +572,7 @@ function printDocToString(doc, options) {
       }
     }
 
+    // console.log(out);
     // Flush remaining line-suffix contents at the end of the document, in case
     // there is no new line after the line-suffix.
     if (cmds.length === 0 && lineSuffix.length > 0) {
@@ -579,27 +580,7 @@ function printDocToString(doc, options) {
       lineSuffix = [];
     }
   }
-
-  const cursorPlaceholderIndex = out.indexOf(cursor.placeholder);
-  if (cursorPlaceholderIndex !== -1) {
-    const otherCursorPlaceholderIndex = out.indexOf(
-      cursor.placeholder,
-      cursorPlaceholderIndex + 1
-    );
-    const beforeCursor = out.slice(0, cursorPlaceholderIndex).join("");
-    const aroundCursor = out
-      .slice(cursorPlaceholderIndex + 1, otherCursorPlaceholderIndex)
-      .join("");
-    const afterCursor = out.slice(otherCursorPlaceholderIndex + 1).join("");
-
-    return {
-      formatted: beforeCursor + aroundCursor + afterCursor,
-      cursorNodeStart: beforeCursor.length,
-      cursorNodeText: aroundCursor,
-    };
-  }
-
-  return { formatted: out.join("") };
+  return { formatted: out.join(""), raw: out };
 }
 
 module.exports = { printDocToString };

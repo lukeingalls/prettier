@@ -594,22 +594,6 @@ function printComments(path, doc, options) {
   return [leading, doc, trailing];
 }
 
-function ensureAllCommentsPrinted(astComments) {
-  if (!astComments) {
-    return;
-  }
-
-  for (const comment of astComments) {
-    if (!comment.printed) {
-      throw new Error(
-        'Comment "' +
-          comment.value.trim() +
-          '" was not printed. Please report this error!'
-      );
-    }
-    delete comment.printed;
-  }
-}
 
 module.exports = {
   attach,
@@ -617,5 +601,4 @@ module.exports = {
   printCommentsSeparately,
   printDanglingComments,
   getSortedChildNodes,
-  ensureAllCommentsPrinted,
 };

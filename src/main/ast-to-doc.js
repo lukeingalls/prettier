@@ -2,7 +2,6 @@
 
 const AstPath = require("../common/ast-path");
 const {
-  builders: { hardline, addAlignmentToDoc },
   utils: { propagateBreaks },
 } = require("../document");
 const { printComments } = require("./comments");
@@ -29,7 +28,7 @@ const multiparser = require("./multiparser");
  * state of the recursion. It is called "path", because it represents
  * the path to the current node through the Abstract Syntax Tree.
  */
-function printAstToDoc(ast, options, alignmentSize = 0) {
+function printAstToDoc(ast, options) {
   const { printer } = options;
 
   if (printer.preprocess) {
@@ -40,12 +39,6 @@ function printAstToDoc(ast, options, alignmentSize = 0) {
   const path = new AstPath(ast);
 
   let doc = mainPrint();
-
-  if (alignmentSize > 0) {
-    // Add a hardline to make the indents take effect
-    // It should be removed in index.js format()
-    doc = addAlignmentToDoc([hardline, doc], alignmentSize, options.tabWidth);
-  }
 
   propagateBreaks(doc);
 

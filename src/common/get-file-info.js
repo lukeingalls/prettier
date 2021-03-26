@@ -3,7 +3,6 @@
 const path = require("path");
 const options = require("../main/options");
 const config = require("../config/resolve-config");
-const createIgnorer = require("./create-ignorer");
 
 /**
  * @typedef {{ ignorePath?: string, withNodeModules?: boolean, plugins: object }} FileInfoOptions
@@ -26,9 +25,7 @@ async function getFileInfo(filePath, opts) {
     );
   }
 
-  const ignorer = await createIgnorer(opts.ignorePath, opts.withNodeModules);
   return _getFileInfo({
-    ignorer,
     filePath,
     plugins: opts.plugins,
     resolveConfig: opts.resolveConfig,
@@ -49,9 +46,8 @@ getFileInfo.sync = function (filePath, opts) {
     );
   }
 
-  const ignorer = createIgnorer.sync(opts.ignorePath, opts.withNodeModules);
   return _getFileInfo({
-    ignorer,
+    // @ts-ignore
     filePath,
     plugins: opts.plugins,
     resolveConfig: opts.resolveConfig,
@@ -75,7 +71,7 @@ function getFileParser(resolvedConfig, filePath, plugins) {
 }
 
 function _getFileInfo({
-  ignorer,
+  // ignorer,
   filePath,
   plugins,
   resolveConfig = false,
@@ -85,7 +81,7 @@ function _getFileInfo({
   const normalizedFilePath = normalizeFilePath(filePath, ignorePath);
 
   const fileInfo = {
-    ignored: ignorer.ignores(normalizedFilePath),
+    ignored: undefined,
     inferredParser: null,
   };
 
